@@ -3,14 +3,14 @@ const { Driver } = require("../db.js");
 const { Op } = require("sequelize");
 
 const get15Drivers = async (req, res) => {
-  const { name } = req.query;
+  const { forename } = req.query;
   const limit = 15;
 
   try {
     const drivers = await Driver.findAll({
       where: {
-        name: {
-          [Op.like]: `%${name}%`,
+        forename: {
+          [Op.iLike]: `%${forename}%`, 
         },
       },
       limit: limit,
@@ -18,18 +18,20 @@ const get15Drivers = async (req, res) => {
 
     if (drivers.length > 0) {
       res.status(200).json(drivers);
-    }
-    const response = await axios.get("http://localhost:5000/drivers");
-    const responseData = response.data;
-    const reslFilter = responseData.filter(
-      (driverData) => driverData.name.forename === name
-    );
-
-    if (reslFilter.length > 0) {
-      const limitedResults = reslFilter.slice(0, 15);
-      res.status(200).json(limitedResults);
     } else {
-      throw new Error("Conductor/es no encontrado/s");
+ 
+      const response = await axios.get("http://localhost:5000/drivers");
+      const responseData = response.data;
+      const reslFilter = responseData.filter(
+        (driverData) => driverData.name.forename.toLowerCase() === forename.toLowerCase() 
+      );
+
+      if (reslFilter.length > 0) {
+        const limitedResults = reslFilter.slice(0, 15);
+        res.status(200).json(limitedResults);
+      } else {
+        throw new Error("Conductor/es no encontrado/s");
+      }
     }
   } catch (error) {
     if (error.response) {

@@ -8,7 +8,7 @@ const getOneDriver = require("../controllers/getOneDriver");
 const router = Router();
 
 router.get("/drivers", (req, res) => {
-  if (req.query.name) {
+  if (req.query.forename) {
     get15Drivers(req, res); //obtiene los primeros 15 elementos segun la busqueda
   } else {
     getAllDrivers(req, res);
