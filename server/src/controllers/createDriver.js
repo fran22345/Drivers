@@ -1,46 +1,42 @@
-const { Driver } = require("../db.js");
+const { Driver, Team } = require("../db.js");
 
-const createDriver = async (req, res) => {
+async function createDrivers(req, res) {
   const {
-    driverRef,
-    number,
-    code,
-    name: { forename, surname },
-    image: { url: imageUrl },
-    dob: birthdate,
+    forename,
+    surname,
+    image,
+    dob,
     nationality,
     url,
-    teams,
     description,
+    teams,
   } = req.body;
 
   try {
-    await Driver.create({
-      driverRef,
-      number,
-      code,
+    const createdDriver = await Driver.create({
       forename,
       surname,
-      image: imageUrl,
-      dob: new Date(birthdate),
+      image,
+      dob,
       nationality,
       url,
-      teams,
       description,
     });
 
-    const createdDriver = await Driver.findOne({
-      where: { forename: forename },
-    });
+    if (teams && teams.length > 0) {
+      const teamRecords = await Team.findAll({ where: { name: teams } });
 
-    if (createdDriver) {
-      res.status(200).json({response:`${createdDriver.forename} fue añadido exitosamente a la base de datos`});
-    } else {
-      res.status(404).json({ error: "Conductor no encontrado" });
+      if (teamRecords && teamRecords.length > 0) {
+        await createdDriver.setTeams(teamRecords);
+      }
     }
+
+    res.status(200).json({
+      response: `${createdDriver.forename} fue añadido exitosamente `,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-module.exports = createDriver;
+module.exports = createDrivers;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ListDriver from "./ListDrivers"
+import ListDriver from "./ListDrivers";
 import Pagination from "./Pagination";
-import Filters from "./Filters"
+import Filters from "./Filters";
 import "./cards.modul.css";
 
 export default function Cards({ drivers }) {
@@ -17,11 +17,16 @@ export default function Cards({ drivers }) {
   const filteredDrivers = drivers
     .filter((driver) => {
       if (teamFilter === "") return true;
-      return driver.team === teamFilter;
+
+      if (driver && driver.teams) {
+        const driverTeams = driver.teams.split(",").filter(Boolean);
+        return driverTeams.includes(teamFilter);
+      }
     })
+
     .filter((driver) => {
       if (sourceFilter === "") return true;
-      return driver.origin === sourceFilter;
+      return typeof driver.id === sourceFilter;
     })
     .sort((a, b) => {
       let nameA =
@@ -68,7 +73,7 @@ export default function Cards({ drivers }) {
 
   const visiblePageNumbers = Array.from(
     { length: totalPages > 5 ? 5 : totalPages },
-    (_, i) => currentPage - 2 + i
+    (_, i) => currentPage + i
   ).filter((pageNumber) => pageNumber >= 1 && pageNumber <= totalPages);
 
   return (

@@ -1,5 +1,5 @@
-// Paginacion.js
 import React from "react";
+import "./pagination.modul.css"; // Importando directamente desde el archivo CSS
 
 export default function Pagination({
   currentPage,

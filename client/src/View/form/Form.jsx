@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import "./CSS/form.modul.css";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewDriver } from "../../redux/actions";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getAllTeams } from "../../redux/actions";
 
 function Form() {
+  const dispatch = useDispatch();
+  const stateMessage = useSelector((state) => state.messageFromCreate);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    forename: "",
+    surname: "",
     nationality: "",
     image: "",
     dob: "",
@@ -13,8 +20,8 @@ function Form() {
   });
 
   const [formErrors, setFormErrors] = useState({
-    firstName: false,
-    lastName: false,
+    forename: false,
+    surname: false,
     nationality: false,
     dob: false,
     description: false,
@@ -42,65 +49,67 @@ function Form() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  
+
     const errors = {};
-    
-    if (formData.firstName.trim() === "") {
-      errors.firstName = "Campo requerido";
-    } else if (!/^[A-Za-z]+$/.test(formData.firstName)) {
-      errors.firstName = "Debe contener solo letras";
+
+    if (formData.forename.trim() === "") {
+      errors.forename = "Campo requerido";
+    } else if (!/^[A-Za-z]+$/.test(formData.forename)) {
+      errors.forename = "Debe contener solo letras";
     }
-    
-    if (formData.lastName.trim() === "") {
-      errors.lastName = "Campo requerido";
-    } else if (!/^[A-Za-z]+$/.test(formData.lastName)) {
-      errors.lastName = "Debe contener solo letras";
+
+    if (formData.surname.trim() === "") {
+      errors.surname = "Campo requerido";
+    } else if (!/^[A-Za-z]+$/.test(formData.surname)) {
+      errors.surname = "Debe contener solo letras";
     }
-    
+
     if (formData.nationality.trim() === "") {
       errors.nationality = "Campo requerido";
     }
-    
+
     if (formData.dob.trim() === "") {
       errors.dob = "Campo requerido";
     }
-    
+
     if (formData.description.trim() === "") {
       errors.description = "Campo requerido";
     }
-    
+
     if (formData.teams.length === 0) {
       errors.teams = "Seleccione al menos un equipo";
     }
-  
+
     setFormErrors(errors);
-  
-    // Si no hay errores, puedes continuar con el envío de datos
+
     if (Object.keys(errors).length === 0) {
-      // Realiza la acción de envío de datos aquí
-      console.log("Formulario válido, enviando datos:", formData);
+      dispatch(createNewDriver(formData));
     }
   };
-  
+
+  const stateTeams = useSelector((state) => state.allTeams);
+
+  useEffect(() => {
+    dispatch(getAllTeams());
+  }, []);
 
   return (
     <div className="form-container">
-      <h2>Formulario de Carga de Datos del Driver</h2>
+      {stateMessage && <span className="message">{stateMessage.response}</span>}
+      <h2>Crea el nuevo Driver</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <label>
             Nombre:
             <input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="forename"
+              value={formData.forename}
               onChange={handleChange}
-              className={formErrors.firstName ? "error" : ""}
+              className={formErrors.forename ? "error" : ""}
             />
-            {formErrors.firstName && (
-              <span className="error-message">
-                {formErrors.firstName}
-              </span>
+            {formErrors.forename && (
+              <span className="error-message">{formErrors.forename}</span>
             )}
           </label>
         </div>
@@ -109,15 +118,13 @@ function Form() {
             Apellido:
             <input
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="surname"
+              value={formData.surname}
               onChange={handleChange}
-              className={formErrors.lastName ? "error" : ""}
+              className={formErrors.surname ? "error" : ""}
             />
-             {formErrors.lastName && (
-              <span className="error-message">
-                {formErrors.lastName}
-              </span>
+            {formErrors.surname && (
+              <span className="error-message">{formErrors.surname}</span>
             )}
           </label>
         </div>
@@ -186,10 +193,9 @@ function Form() {
               value={formData.teams}
               onChange={handleTeamChange}
             >
-              <option value="McLaren">McLaren</option>
-              <option value="Mercedes">Mercedes</option>
-              <option value="Ferrari">Ferrari</option>
-              {/* Agrega más opciones de escuderías según sea necesario */}
+              {stateTeams.map((teams) => {
+                return <option> {teams}</option>;
+              })}
             </select>
             {formErrors.teams && (
               <span className="error-message">Campo requerido</span>
@@ -200,6 +206,9 @@ function Form() {
           <button type="submit">Crear Nuevo Driver</button>
         </div>
       </form>
+      <div>
+        <Link to={"/home"}>Home</Link>
+      </div>
     </div>
   );
 }

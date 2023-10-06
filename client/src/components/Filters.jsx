@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTeams } from "../redux/actions";
 
 export default function Filtros({
   teamFilter,
@@ -8,11 +10,23 @@ export default function Filtros({
   setSourceFilter,
   setOrderBy,
 }) {
+  const dispatch = useDispatch();
+  const stateTeams = useSelector((state) => state.allTeams);
+
+  useEffect(() => {
+    dispatch(getAllTeams());
+  }, []);
+
   return (
     <div className="filter-options">
-      <select value={teamFilter} onChange={(e) => setTeamFilter(e.target.value)}>
+      <select
+        value={teamFilter}
+        onChange={(e) => setTeamFilter(e.target.value)}
+      >
         <option value="">Todos los equipos</option>
-        {/* Agrega opciones para equipos según tus datos */}
+        {stateTeams.map((teams) => {
+          return <option> {teams}</option>;
+        })}
       </select>
 
       <select
@@ -20,8 +34,8 @@ export default function Filtros({
         onChange={(e) => setSourceFilter(e.target.value)}
       >
         <option value="">Todos los orígenes</option>
-        <option value="API">API</option>
-        <option value="BD">Base de datos</option>
+        <option value="number">API</option>
+        <option value="string">Base de datos</option>
       </select>
 
       <select value={orderBy} onChange={(e) => setOrderBy(e.target.value)}>

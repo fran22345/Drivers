@@ -1,0 +1,26 @@
+/* pagination.module.css */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 4px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button.active {
+  background-color: #555;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

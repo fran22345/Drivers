@@ -7,19 +7,6 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    driverRef: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    number: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    code: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     forename: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,14 +24,6 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     nationality: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    url: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    teams: {
       type: DataTypes.STRING,
       allowNull: false,
     },
