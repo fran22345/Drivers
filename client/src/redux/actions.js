@@ -26,13 +26,11 @@ export const findOneDriver = (value) => {
           forename: value,
         },
       });
-
       return dispatch({
         type: FIND_ONE_DRIVER,
         payload: response.data,
       });
     } catch (error) {
-      // Manejar el error aquí si es necesario
       console.error("Error en la solicitud GET:", error);
     }
   };
@@ -42,13 +40,12 @@ export const findDriverById = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`http://localhost:3001/drivers/${id}`);
-
       return dispatch({
         type: FIND_DRIVERS_BY_ID,
         payload: response.data,
       });
     } catch (error) {
-      // Manejar el error aquí si es necesario
+
       console.error("Error en la solicitud GET:", error);
     }
   };
@@ -65,11 +62,22 @@ export const clearDriverById = () => {
 
 export const createNewDriver = (driver) => {
   return async (dispatch) => {
-    const response = await axios.post("http://localhost:3001/drivers", driver);
-    return dispatch({
-      type: MESSAGE_FROM_CREATE,
-      payload: response.data,
-    });
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/drivers",
+        driver
+      );
+      return dispatch({
+        type: MESSAGE_FROM_CREATE,
+        payload: response.data,
+      });
+    } catch (error) {
+      const errorMessage = error.response.data.error
+      return dispatch({
+        type: MESSAGE_FROM_CREATE,
+        payload: errorMessage,
+      });
+    }
   };
 };
 

@@ -8,8 +8,10 @@ import "./CSS/details.modul.css";
 const Detail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const driver = useSelector((state) => state.driverById[0]);
-  console.log(driver);
+  const driverData = useSelector((state) => state.driverById);
+
+  const driver = Array.isArray(driverData) ? driverData[0] : driverData;
+
   useEffect(() => {
     dispatch(findDriverById(id));
 
@@ -21,16 +23,23 @@ const Detail = () => {
   return (
     <div className="backgroun">
       <div className={"card"}>
-        {driver && (
+        {driver === undefined ? (
+          <p>Cargando...</p>
+        ) : (
           <>
             <img
-              src={driver.image.url}
-              alt={driver.name.forename}
-              className={"card-image"}
+              src={driver.image.url || "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"}
+              alt={driver.forename || driver.name.forename}
+              className="card-image"
+              onError={(event) => {
+                event.target.src = "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"; 
+              }}
             />
+
             <div className={"card-details"}>
               <h2>
-                {driver.name.forename} {driver.name.surname}
+                {driver.forename ? driver.forename : driver.name.forename}{" "}
+                {driver.surname ? driver.surname : driver.name.surname}
               </h2>
               <p>
                 <strong>Driver Ref:</strong> {driver.driverRef}

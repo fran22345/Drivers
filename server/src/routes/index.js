@@ -4,6 +4,7 @@ const get15Drivers = require("../controllers/get15Drivers");
 const getAllDrivers = require("../controllers/getAllDrivers");
 const getAllTeams = require("../controllers/getAllTeams");
 const getOneDriver = require("../controllers/getOneDriver");
+const upDateDriver = require("../controllers/upDateDriver")
 
 const router = Router();
 
@@ -27,3 +28,7 @@ router.get("/team", (req, res) => {
   getAllTeams(req, res);
 });
 module.exports = router;
+
+router.put("/drivers/:id", (req, res)=>{
+  upDateDriver(req,res)
+})

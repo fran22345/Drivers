@@ -86,7 +86,6 @@ function Form() {
       dispatch(createNewDriver(formData));
     }
   };
-
   const stateTeams = useSelector((state) => state.allTeams);
 
   useEffect(() => {
@@ -95,7 +94,6 @@ function Form() {
 
   return (
     <div className="form-container">
-      {stateMessage && <span className="message">{stateMessage.response}</span>}
       <h2>Crea el nuevo Driver</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
@@ -206,6 +204,12 @@ function Form() {
           <button type="submit">Crear Nuevo Driver</button>
         </div>
       </form>
+      {stateMessage && (
+        <span className={stateMessage ? "message" : "error-message"}>
+          {stateMessage.response || stateMessage}
+        </span>
+      )}
+
       <div>
         <Link to={"/home"}>Home</Link>
       </div>

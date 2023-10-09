@@ -14,7 +14,18 @@ export default function Card({
   return (
     <Link to={handleLink} className="link-card">
       <div className="card">
-        <img src={image} alt="" className="card-image" />
+        <img
+          src={
+             image ||
+            "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"
+          }
+          alt={forename}
+          className="card-image"
+          onError={(event) => {
+            event.target.src =
+              "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png";
+          }}
+        />
         <div className="card-details">
           <h2 className="card-title">
             Nombre: {forename} {surname}

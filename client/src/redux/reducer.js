@@ -19,10 +19,7 @@ const reducer = (state = initialState, action) => {
     case FIND_DRIVER:
       return { ...state, allDrivers: action.payload };
     case FIND_ONE_DRIVER:
-      // Actualiza allDrivers solo si es necesario
-      return action.payload.length > 0
-        ? { ...state, allDrivers: action.payload }
-        : state;
+      return { ...state, allDrivers: action.payload };
     case FIND_DRIVERS_BY_ID:
       return { ...state, driverById: action.payload };
     case CLEAR_DRIVER_BY_ID:

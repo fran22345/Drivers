@@ -13,6 +13,12 @@ async function createDrivers(req, res) {
   } = req.body;
 
   try {
+    const repetes = await Driver.findAll({ where: { forename: forename } });
+
+    if (repetes.length > 0) {
+      throw new Error(`${forename} ya existe`);
+    }
+    
     const createdDriver = await Driver.create({
       forename,
       surname,
@@ -23,10 +29,10 @@ async function createDrivers(req, res) {
       description,
     });
 
-    if (teams && teams.length > 0) {
+    if (Array.isArray(teams) && teams.length > 0) {
       const teamRecords = await Team.findAll({ where: { name: teams } });
 
-      if (teamRecords && teamRecords.length > 0) {
+      if (teamRecords.length > 0) {
         await createdDriver.setTeams(teamRecords);
       }
     }

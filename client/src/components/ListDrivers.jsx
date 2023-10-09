@@ -16,7 +16,7 @@ export default function ListaConductores({ drivers }) {
           dob={driver?.dob}
           nationality={driver?.nationality}
           url={driver?.url}
-          team={driver?.teams}
+          team={driver?.teams || driver.Teams?.map((team) => team.name).join(",")}
         />
       ))}
     </div>
