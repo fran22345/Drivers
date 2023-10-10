@@ -20,16 +20,32 @@ const upDateDriver = async (req, res) => {
       return res.status(404).json({ error: "Conductor no encontrado" });
     }
 
-    // Actualiza los atributos del conductor directamente
-    await driverToUpdate.update({
-      forename,
-      surname,
-      image,
-      dob,
-      nationality,
-      url,
-      description,
-    });
+    const updateData = {};
+
+    if (forename) {
+      updateData.forename = forename;
+    }
+    if (surname) {
+      updateData.surname = surname;
+    }
+    if (image) {
+      updateData.image = image;
+    }
+    if (dob) {
+      updateData.dob = dob;
+    }
+    if (nationality) {
+      updateData.nationality = nationality;
+    }
+    if (url) {
+      updateData.url = url;
+    }
+    if (description) {
+      updateData.description = description;
+    }
+    
+    await driverToUpdate.update(updateData);
+    
 
     if (teams && teams.length > 0) {
 
@@ -70,6 +86,7 @@ const upDateDriver = async (req, res) => {
     return res.status(200).json({ message: "Conductor actualizado exitosamente" });
   } catch (error) {
     return res.status(500).json({ error: "Error en el servidor" });
+    
   }
 };
 

@@ -1,4 +1,4 @@
-/* Estilos para la barra de navegación */
+
 .navbar {
   background-color: #333;
   padding: 10px;
@@ -7,11 +7,13 @@
   justify-content: flex-end;
 }
 
+
 .search-text {
-  margin-right: auto; /* Empuja el texto a la izquierda */
-  color: white; /* Color del texto */
+  margin-right: auto; 
+  color: white; 
   font-size: 30px;
 }
+
 
 .search-input input {
   padding: 5px;
@@ -29,7 +31,7 @@
 }
 
 .create-button {
-  /* Estilos para el botón "Crear Drivers" */
+
   background-color: #007bff;
   color: white;
   border: none;

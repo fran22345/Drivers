@@ -20,10 +20,20 @@ export default function Cards({ drivers }) {
 
       if (driver && driver.teams) {
         const driverTeams = driver.teams.split(",").filter(Boolean);
-        return driverTeams.includes(teamFilter);
+        console.log(driverTeams);
+        return driverTeams.some(
+          (team) =>
+            team.toLowerCase().trim() === teamFilter.toLowerCase().trim()
+        );
+      }
+      if (driver && driver.Teams) {
+        const driverTeams = driver.Teams.map((team) => team.name);
+        return driverTeams.some(
+          (team) =>
+            team.toLowerCase().trim() === teamFilter.toLowerCase().trim()
+        );
       }
     })
-
     .filter((driver) => {
       if (sourceFilter === "") return true;
       return typeof driver.id === sourceFilter;

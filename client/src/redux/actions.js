@@ -45,7 +45,6 @@ export const findDriverById = (id) => {
         payload: response.data,
       });
     } catch (error) {
-
       console.error("Error en la solicitud GET:", error);
     }
   };
@@ -72,7 +71,7 @@ export const createNewDriver = (driver) => {
         payload: response.data,
       });
     } catch (error) {
-      const errorMessage = error.response.data.error
+      const errorMessage = error.response.data.error;
       return dispatch({
         type: MESSAGE_FROM_CREATE,
         payload: errorMessage,
@@ -86,6 +85,19 @@ export const getAllTeams = () => {
     const response = await axios.get("http://localhost:3001/team");
     return dispatch({
       type: GET_ALL_TEAMS,
+      payload: response.data,
+    });
+  };
+};
+
+export const upDateDriver = (driver, id) => {
+  return async (dispatch) => {
+    const response = await axios.put(
+      `http://localhost:3001/drivers/${id}`,
+      driver
+    );
+    return dispatch({
+      type: MESSAGE_FROM_CREATE,
       payload: response.data,
     });
   };

@@ -201,11 +201,13 @@ function Form() {
           </label>
         </div>
         <div className="form-row">
-          <button type="submit">Crear Nuevo Driver</button>
+          <button type="submit">
+            Crear Nuevo Driver
+          </button>
         </div>
       </form>
       {stateMessage && (
-        <span className={stateMessage ? "message" : "error-message"}>
+        <span className={stateMessage.response ? "message" : "error-message"}>
           {stateMessage.response || stateMessage}
         </span>
       )}

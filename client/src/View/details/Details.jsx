@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { findDriverById } from "../../redux/actions";
 import { clearDriverById } from "../../redux/actions";
+import { Link } from "react-router-dom";
 import "./CSS/details.modul.css";
 
 const Detail = () => {
@@ -23,16 +24,23 @@ const Detail = () => {
   return (
     <div className="backgroun">
       <div className={"card"}>
+      <div>
+        <Link to={`/edit/${id}`}>Editar</Link>
+      </div>
         {driver === undefined ? (
           <p>Cargando...</p>
         ) : (
           <>
             <img
-              src={driver.image.url || "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"}
+              src={
+                driver.image.url ||
+                "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"
+              }
               alt={driver.forename || driver.name.forename}
               className="card-image"
               onError={(event) => {
-                event.target.src = "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png"; 
+                event.target.src =
+                  "https://cdn.pixabay.com/photo/2013/07/13/01/10/race-driver-155235_1280.png";
               }}
             />
 
@@ -52,16 +60,15 @@ const Detail = () => {
                 ""
               )}
               <p>
-                <strong>Date of Birth:</strong> {driver.dob}
+                <strong>Date of Birth:</strong>{" "}
+                {new Date(driver.dob).toLocaleDateString()}
               </p>
+
               <p>
                 <strong>Nationality:</strong> {driver.nationality}
               </p>
               <p>
                 <strong>Team/s:</strong> {driver.teams}
-              </p>
-              <p className="description">
-                <strong>Image By:</strong> {driver.image.imageby}
               </p>
               <hr />
               <p className="description">
