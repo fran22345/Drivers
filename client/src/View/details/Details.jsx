@@ -24,9 +24,13 @@ const Detail = () => {
   return (
     <div className="backgroun">
       <div className={"card"}>
-      <div>
-        <Link to={`/edit/${id}`}>Editar</Link>
-      </div>
+        {isNaN(id) ? (
+          <div>
+            <Link to={`/edit/${id}`}>Editar</Link>
+          </div>
+        ) : (
+          ""
+        )}
         {driver === undefined ? (
           <p>Cargando...</p>
         ) : (
