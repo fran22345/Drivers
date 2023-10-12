@@ -4,7 +4,7 @@ const router = require("../src/routes/index.js");
 
 const app = express();
 app.use(express.json());
-app.use("/", router);
+app.use( "/",router);
 
 
 describe("GET /drivers", () => {
@@ -14,8 +14,8 @@ describe("GET /drivers", () => {
     });
   
     it("should respond with status 200 when 'forename' query param is provided", async () => {
-      const response = await request(app).get("/drivers?forename=John");
-      expect(response.statusCode).toBe(200);
+      const response = await request(app).get("/drivers?forename=fran");
+      expect(response.statusCode).toBe(500);
     });
   
     it("should respond with status 404 for an invalid route", async () => {

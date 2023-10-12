@@ -17,7 +17,6 @@ const getAllDrivers = async (req, res) => {
 
     res.status(200).json(combinedDrivers);
   } catch (error) {
-    console.error("Error al obtener los conductores:", error);
     res.status(500).json({ error: "Error al obtener los conductores" });
   }
 };
