@@ -18,46 +18,40 @@ function Form() {
     description: "",
     teams: [],
   });
-
   const [formErrors, setFormErrors] = useState({
-    forename: false,
-    surname: false,
-    nationality: false,
-    dob: false,
-    description: false,
-    teams: false,
+    forename: "",
+    surname: "",
+    nationality: "",
+    image: "",
+    dob: "",
+    description: "",
+    teams: "",
   });
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleTeamChange = (event) => {
-    const { options } = event.target;
-    const teams = Array.from(options)
-      .filter((option) => option.selected)
-      .map((option) => option.value);
-    setFormData({
-      ...formData,
-      teams,
-    });
-  };
-
-  const handleSubmit = (event) => {
     event.preventDefault();
-
+    const { options, name, value } = event.target;
     const errors = {};
+    if (name === "teams") {
+      const teams = Array.from(options)
+        .filter((option) => option.selected)
+        .map((option) => option.value);
+      setFormData({
+        ...formData,
+        teams,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
 
     if (formData.forename.trim() === "") {
       errors.forename = "Campo requerido";
     } else if (!/^[A-Za-z]+$/.test(formData.forename)) {
       errors.forename = "Debe contener solo letras";
     }
-
     if (formData.surname.trim() === "") {
       errors.surname = "Campo requerido";
     } else if (!/^[A-Za-z]+$/.test(formData.surname)) {
@@ -76,16 +70,40 @@ function Form() {
       errors.description = "Campo requerido";
     }
 
+    if (formData.image.trim() === "") {
+      errors.image = "Campo requerido";
+    }
     if (formData.teams.length === 0) {
       errors.teams = "Seleccione al menos un equipo";
     }
-
     setFormErrors(errors);
+  };
 
-    if (Object.keys(errors).length === 0) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (Object.keys(formErrors).length === 0) {
       dispatch(createNewDriver(formData));
+      setFormData({
+        forename: "",
+        surname: "",
+        nationality: "",
+        image: "",
+        dob: "",
+        description: "",
+        teams: [],
+      });
+      setFormErrors({
+        forename: "",
+        surname: "",
+        nationality: "",
+        image: "",
+        dob: "",
+        description: "",
+        teams: "",
+      });
     }
   };
+
   const stateTeams = useSelector((state) => state.allTeams);
 
   useEffect(() => {
@@ -189,21 +207,19 @@ function Form() {
               multiple
               name="teams"
               value={formData.teams}
-              onChange={handleTeamChange}
+              onChange={handleChange}
             >
               {stateTeams.map((teams) => {
                 return <option> {teams}</option>;
               })}
             </select>
             {formErrors.teams && (
-              <span className="error-message">Campo requerido</span>
+              <span className="error-message">{formErrors.teams}</span>
             )}
           </label>
         </div>
         <div className="form-row">
-          <button type="submit">
-            Crear Nuevo Driver
-          </button>
+          <button type="submit">Crear Nuevo Driver</button>
         </div>
       </form>
       {stateMessage && (

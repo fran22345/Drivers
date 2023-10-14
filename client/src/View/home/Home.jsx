@@ -1,5 +1,4 @@
 import Cards from "../../components/Cards";
-import SearchBar from "../../components/SearchBar";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllDriver } from "../../redux/actions";
@@ -17,7 +16,6 @@ const Home = () => {
 
   return (
     <div>
-      <SearchBar />
       <Cards drivers={drivers} />
     </div>
   );

@@ -12,7 +12,6 @@ const Detail = () => {
   const driverData = useSelector((state) => state.driverById);
 
   const driver = Array.isArray(driverData) ? driverData[0] : driverData;
-
   useEffect(() => {
     dispatch(findDriverById(id));
 
@@ -72,7 +71,7 @@ const Detail = () => {
                 <strong>Nationality:</strong> {driver.nationality}
               </p>
               <p>
-                <strong>Team/s:</strong> {driver.teams}
+                <strong>Team/s:</strong> {driver?.teams || driver.Teams?.map((team) => team.name).join(",")}
               </p>
               <hr />
               <p className="description">
