@@ -5,9 +5,11 @@ import { createNewDriver } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getAllTeams } from "../../redux/actions";
+import validation from "./JS/validation";
 
 function Form() {
   const dispatch = useDispatch();
+  const stateTeams = useSelector((state) => state.allTeams);
   const stateMessage = useSelector((state) => state.messageFromCreate);
   const [formData, setFormData] = useState({
     forename: "",
@@ -27,11 +29,11 @@ function Form() {
     description: "",
     teams: "",
   });
-
+  console.log(formData, formErrors);
   const handleChange = (event) => {
     event.preventDefault();
     const { options, name, value } = event.target;
-    const errors = {};
+
     if (name === "teams") {
       const teams = Array.from(options)
         .filter((option) => option.selected)
@@ -46,38 +48,11 @@ function Form() {
         [name]: value,
       });
     }
-
-    if (formData.forename.trim() === "") {
-      errors.forename = "Campo requerido";
-    } else if (!/^[A-Za-z]+$/.test(formData.forename)) {
-      errors.forename = "Debe contener solo letras";
-    }
-    if (formData.surname.trim() === "") {
-      errors.surname = "Campo requerido";
-    } else if (!/^[A-Za-z]+$/.test(formData.surname)) {
-      errors.surname = "Debe contener solo letras";
-    }
-
-    if (formData.nationality.trim() === "") {
-      errors.nationality = "Campo requerido";
-    }
-
-    if (formData.dob.trim() === "") {
-      errors.dob = "Campo requerido";
-    }
-
-    if (formData.description.trim() === "") {
-      errors.description = "Campo requerido";
-    }
-
-    if (formData.image.trim() === "") {
-      errors.image = "Campo requerido";
-    }
-    if (formData.teams.length === 0) {
-      errors.teams = "Seleccione al menos un equipo";
-    }
-    setFormErrors(errors);
   };
+
+  useEffect(() => {
+    setFormErrors(validation(formData));
+  }, [formData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -103,8 +78,6 @@ function Form() {
       });
     }
   };
-
-  const stateTeams = useSelector((state) => state.allTeams);
 
   useEffect(() => {
     dispatch(getAllTeams());
@@ -219,7 +192,9 @@ function Form() {
           </label>
         </div>
         <div className="form-row">
-          <button type="submit">Crear Nuevo Driver</button>
+          <button type="submit" disabled={Object.keys(formErrors).length !== 0}>
+            Crear Nuevo Driver
+          </button>
         </div>
       </form>
       {stateMessage && (

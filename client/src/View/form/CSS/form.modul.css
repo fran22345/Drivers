@@ -44,3 +44,9 @@ button {
 .message {
   color: green;
 }
+
+button[disabled] {
+  background-color: #ccc; 
+  color: #888; 
+  cursor: not-allowed; 
+}

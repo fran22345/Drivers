@@ -3,7 +3,6 @@ import "./pagination.modul.css"; // Importando directamente desde el archivo CSS
 
 export default function Pagination({
   currentPage,
-  totalPages,
   prevPage,
   nextPage,
   goToPage,
