@@ -5,6 +5,7 @@ import {
   CLEAR_DRIVER_BY_ID,
   MESSAGE_FROM_CREATE,
   GET_ALL_TEAMS,
+  BACK_TO_PAGE_ONE,
 } from "./actiontype";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   driverById: [],
   messageFromCreate: [],
   allTeams: [],
+  backToBegin: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +30,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, messageFromCreate: action.payload };
     case GET_ALL_TEAMS:
       return { ...state, allTeams: action.payload };
+    case BACK_TO_PAGE_ONE:
+      return { ...state, backToBegin: action.payload };
     default:
       return state;
   }

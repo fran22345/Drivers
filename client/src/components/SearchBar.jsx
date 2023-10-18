@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { findOneDriver } from "../redux/actions";
 import "./searchBar.modul.css";
 import { Link, useNavigate } from "react-router-dom";
+import { backToBegin } from "../redux/actions";
 
 export default function SearchBar() {
   const [value, setValue] = useState("");
@@ -25,6 +26,10 @@ export default function SearchBar() {
   const handleReload = () => {
     window.location.reload();
   };
+
+  const handlePage = ()=>{
+    dispatch(backToBegin())
+  }
  
   return (
     <div className="navbar">
@@ -52,6 +57,7 @@ export default function SearchBar() {
         <button
           className="search-button"
           onClick={() => {
+            handlePage();
             handleClic();
             setValue("");
           }}

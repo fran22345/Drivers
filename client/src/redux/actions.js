@@ -5,6 +5,7 @@ import {
   CLEAR_DRIVER_BY_ID,
   MESSAGE_FROM_CREATE,
   GET_ALL_TEAMS,
+  BACK_TO_PAGE_ONE,
 } from "./actiontype";
 import axios from "axios";
 
@@ -99,6 +100,15 @@ export const upDateDriver = (driver, id) => {
     return dispatch({
       type: MESSAGE_FROM_CREATE,
       payload: response.data,
+    });
+  };
+};
+
+export const backToBegin = () => {
+  return (dispatch) => {
+    return dispatch({
+      type: BACK_TO_PAGE_ONE,
+      payload: 1,
     });
   };
 };

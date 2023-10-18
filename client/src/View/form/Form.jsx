@@ -29,7 +29,6 @@ function Form() {
     description: "",
     teams: "",
   });
-  console.log(formData, formErrors);
   const handleChange = (event) => {
     event.preventDefault();
     const { options, name, value } = event.target;
@@ -175,7 +174,7 @@ function Form() {
         </div>
         <div className="form-row">
           <label>
-            Escuderías:
+            Escuderías:(Seleccione otras opciones manteniendo Control)
             <select
               multiple
               name="teams"

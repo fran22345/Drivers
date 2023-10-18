@@ -3,8 +3,10 @@ import ListDriver from "./ListDrivers";
 import Pagination from "./Pagination";
 import Filters from "./Filters";
 import "./cards.modul.css";
+import { useSelector } from "react-redux";
 
 export default function Cards({ drivers }) {
+  let statePage = useSelector((state) => state.backToBegin);
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
   const [teamFilter, setTeamFilter] = useState("");
@@ -13,6 +15,10 @@ export default function Cards({ drivers }) {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+  
+  if (statePage && currentPage !== statePage) {
+    setCurrentPage(statePage);
+  }
 
   const filteredDrivers = drivers
     .filter((driver) => {
@@ -20,7 +26,6 @@ export default function Cards({ drivers }) {
 
       if (driver && driver.teams) {
         const driverTeams = driver.teams.split(",").filter(Boolean);
-        console.log(driverTeams);
         return driverTeams.some(
           (team) =>
             team.toLowerCase().trim() === teamFilter.toLowerCase().trim()
